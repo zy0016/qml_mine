@@ -45,7 +45,6 @@ class Chessmantype {
     }
 }
 function getChessInitedValue() {
-    console.log("getChessInitedValue bChessInited:" + bChessInited)
     return bChessInited;
 }
 function getHx1(){
@@ -190,10 +189,8 @@ function setMines(iRow,iCol)
 
 function ifExistMineInCurrentCol(icol){
     var i = 0;
-    console.log("IfExistMineInCurrentCol icol:" + icol + " chessnum:" + chessnum);
     for (i = 0;i < chessnum;i++){
         var bt = sChessmine[i][icol];
-        console.log("i:" + i + " " + bt.bMineType);
         if (bt.bMineType)
             return true;
     }
@@ -302,7 +299,6 @@ function initChessman(level) {
         }
     }
 
-    console.log("==================position==============");
     i = 0;
     while(i < chessnum){
         iMineCol = Math.floor((Math.random()*chessnum));
@@ -310,7 +306,6 @@ function initChessman(level) {
         if ((!sChessmine[i][iMineCol].bMineType) && !ifexist) {
             sChessmine[i][iMineCol].setMinetype(true);
             sChessmine[i][iMineCol].setMinenum(-1);
-            console.log(i + " " + iMineCol + " set mine" + iMinenum);
             i++;
             iMinenum++;
         }
@@ -323,10 +318,8 @@ function initChessman(level) {
             sChessmine[i][j].setMinetype(true);
             sChessmine[i][j].setMinenum(-1);
             iMinenum++;
-            console.log(i + " " + j + " set mine" + iMinenum);
         }
     }
-    console.log("iMinenum:" + iMinenum);
     for (i = 0;i < chessnum;i++){
         for (j = 0;j < chessnum;j++){
             elemenet = sChessmine[i][j];
@@ -444,15 +437,14 @@ function initChessman(level) {
         }
     }
 
-    console.log("========start===========")
-    var sk = "";
+    /*var sk = "";
     for (i = 0;i < RowCount;i++){
         sk = "";
         for (j = 0;j < ColCount;j++){
             sk = sk + sChessmine[j][i].iMineNum + "\t"
         }
         console.log(sk);
-    }
+    }*/
     bChessInited = true;
     return sChessmine;
 }

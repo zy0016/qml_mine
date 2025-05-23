@@ -23,8 +23,6 @@ ApplicationWindow   {
         console.log("Received JSON message:", message);
         console.log("Time:", message.timer);
         timename.text = message.timer;
-        //console.log("Timestamp:", message.timestamp);
-        //console.log("Message:", message.message);
     }
 
     Rectangle {
@@ -237,7 +235,6 @@ ApplicationWindow   {
                 anchors.fill:parent
                 acceptedButtons: Qt.LeftButton|Qt.RightButton;
                 onClicked: (mouse) => {
-                    console.log("mouseX:"+mouseX + " mouseY:" + mouseY);
                     var sChessmine = MineGame.getChessmanValue();
                     var chessnum = MineGame.getChessnum();
                     var hx1 = MineGame.getHx1();
@@ -251,20 +248,17 @@ ApplicationWindow   {
                     var position = MineGame.getChessNumber(mouseX,mouseY);
                     var irow = position[0];
                     var icol = position[1];
-                    console.log("position[0]:"+position[0] + " position[1]:" + position[1]);
                     if (MineGame.ifGameOver())
                     {
                         MineGame.mineOver();
                         return true;
                     }
                     //MineGame.beginMine();
-                    console.log("timer_1.start!!!mouse.button:" + mouse.button);
                     //timer_1.start();
                     myClass.startTimer();
                     if (mouse.button === Qt.LeftButton)
                     {
                         var bminetype = sChessmine[irow][icol].getMinetype();
-                        console.log("chessnum[irow][icol].bMineType:" + bminetype);
                         if (sChessmine[irow][icol].bMineType)//people click the mine,game over
                         {
                             //display all mines and display game over.
@@ -300,7 +294,6 @@ ApplicationWindow   {
                     }
                     else if(mouse.button === Qt.RightButton)
                     {
-                        console.log("mouse.button === Qt.RightButton");
                         if (sChessmine[irow][icol].eGridType === 0)
                         {
                             sChessmine[irow][icol].setGridtype(1);
@@ -325,7 +318,6 @@ ApplicationWindow   {
                             sChessmine[irow][icol].setGridtype(0);
                         }
                     }
-                    console.log("=============force maincanvas.requestPaint=============");
                     maincanvas.requestPaint();
                 }
             }
@@ -344,22 +336,11 @@ ApplicationWindow   {
                 var bMineDefeat = MineGame.getGamedefeat();
                 var ctx = getContext("2d");
                 ctx.reset();
-                console.log("begin onPaint!");
                 minename.text = MineGame.getRemainMinenum();
                 if (!MineGame.getChessInitedValue()){
-                    console.log("init from main.qml");
                     MineGame.initChessman(0)
                 }
                 var sChessmine = MineGame.getChessmanValue();
-                /*console.log("chessnum:" + chessnum + " minenum:" + minenum + " bMineDefeat:" + bMineDefeat);
-                console.log("onPaint:");
-                for (i = 0;i < chessnum;i++){
-                    var s = "";
-                    for (j = 0;j < chessnum;j++){
-                        s = s + sChessmine[i][j].eGridType + " "
-                    }
-                    console.log(s);
-                }*/
                 /*ctx.lineWidth = 2
                 ctx.strokeStyle = "red"
                 ctx.fillStyle = "blue"
@@ -389,22 +370,18 @@ ApplicationWindow   {
                     {
                         if (bMineDefeat)//defeat,display all mines
                         {
-                            console.log(i + " " + j +" eGridType:" + sChessmine[i][j].eGridType + " bMineType:" + sChessmine[i][j].bMineType);
                             if (sChessmine[i][j].eGridType === 4)//display the defeat mine
                             {
-                                console.log(i + " " + j +" draw red mine:");
                                 ctx.drawImage(imagered,sChessmine[i][j].x + (bw - iPicWidth) / 2,sChessmine[i][j].y + (bh - iPicHeight) / 2);
                             }
                             else
                             {
                                 if (sChessmine[i][j].bMineType)
                                 {
-                                    console.log(i + " " + j +" draw black mine:");
                                     ctx.drawImage(imageblack,sChessmine[i][j].x + (bw - iPicWidth) / 2,sChessmine[i][j].y + (bh - iPicHeight) / 2);
                                 }
                                 else
                                 {
-                                    console.log(i + " " + j +" draw text:" + sChessmine[i][j].iMineNum);
                                     //ctx.text(sChessmine[i][j].iMineNum,sChessmine[i][j].x + bw / 2 - 5,sChessmine[i][j].y + bh / 2 + 4);
                                     switch(sChessmine[i][j].iMineNum)
                                     {
@@ -448,7 +425,6 @@ ApplicationWindow   {
                                 ctx.beginPath();
                                 ctx.rect(sChessmine[i][j].x + 1,sChessmine[i][j].y + 1,bw - 1,bh - 1);
                                 ctx.fill();
-                                //console.log("i:"+i+" j:"+j+" eGridType is normal");
                                 break;
                             case 1://flag
                                 ctx.fillStyle = "grey";
@@ -456,7 +432,6 @@ ApplicationWindow   {
                                 ctx.rect(sChessmine[i][j].x,sChessmine[i][j].y,bw - 1,bh - 1);
                                 ctx.fill();
                                 ctx.drawImage(imageflag,sChessmine[i][j].x + (bw - iPicWidth) / 2,sChessmine[i][j].y + (bh - iPicHeight) / 2);
-                                //console.log("i:"+i+" j:"+j+" eGridType is flag");
                                 break;
                             case 2://interrogation
                                 ctx.fillStyle = "grey";
@@ -464,12 +439,10 @@ ApplicationWindow   {
                                 ctx.rect(sChessmine[i][j].x,sChessmine[i][j].y,bw - 1,bh - 1);
                                 ctx.fill();
                                 ctx.drawImage(imageinterrogation,sChessmine[i][j].x + (bw - iPicWidth) / 2,sChessmine[i][j].y + (bh - iPicHeight) / 2);
-                                //console.log("i:"+i+" j:"+j+" eGridType is interrogation");
                                 break;
                             case 3://click open
                                 if (sChessmine[i][j].iMineNum !== 0)//display the number of the grid
                                 {
-                                    console.log("i:"+i+" j:"+j+" click open draw text:" + sChessmine[i][j].iMineNum);
                                     //ctx.text(sChessmine[i][j].iMineNum,sChessmine[i][j].x + bw / 2 - 5,sChessmine[i][j].y + bh / 2 + 4);
                                     switch(sChessmine[i][j].iMineNum)
                                     {
@@ -562,8 +535,20 @@ ApplicationWindow   {
                          newGameButton.icon.source = "qrc:/s1.png";
                          maincanvas.requestPaint();
                          }}
-                Action { text: ("中文") }
-                Action { text: ("English") }
+                Action { text: ("中文")
+                         onTriggered: {
+                         var i = qmlLanguage.getLocalLanguage();
+                         console.log("Action Chinese " + i);
+                         qmlLanguage.setLanguage(1)
+                         }
+                }
+                Action { text: ("English")
+                         onTriggered: {
+                         var i = qmlLanguage.getLocalLanguage();
+                         console.log("Action English " + i);
+                         qmlLanguage.setLanguage(0)
+                        }
+                }
                 Action { text: qsTr("&About")
                          onTriggered:messageDialog.open(); }
                 MenuSeparator { }

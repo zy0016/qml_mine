@@ -15,9 +15,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         MyClass.cpp \
-        main.cpp
+        main.cpp \
+        qmllanguage.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+        translator.qrc
 RC_FILE = logo.rc
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -30,7 +32,11 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+TRANSLATIONS += \
+    zh_CN.ts \
+    en_US.ts
 DISTFILES +=
 
 HEADERS += \
-    MyClass.h
+    MyClass.h \
+    qmllanguage.h
